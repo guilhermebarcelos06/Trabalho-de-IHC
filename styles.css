@@ -1,0 +1,79 @@
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+        }
+
+     .hero-section {
+    
+  background-image: url(img/pet3.jpg);
+  background-size: cover; /* GARANTE O PREENCHIMENTO, MAS CORTA */
+  background-position: center center; /* Tenta centralizar o corte */
+  background-repeat: no-repeat;
+  height: 50vh;
+  /* ... outros estilos */
+
+    color: rgb(253, 252, 252);
+    padding: 10px 0;
+    height: 50vh;
+    display: flex;
+    text-align: center;
+}
+        .hero-section h1 {
+            font-weight: 700;
+            font-size: 3.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-section p {
+            font-size: 1.25rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        section {
+            padding: 60px 0;
+        }
+        
+        section#inicio {
+            padding: 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-weight: 700;
+            color: #343a40;
+        }
+
+        .card-service, .card-team {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,.1);
+            transition: transform .3s, box-shadow .3s;
+            height: 100%;
+        }
+        
+        .card-service:hover, .card-team:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,.15);
+        }
+
+        .card-service .icon {
+            font-size: 3rem;
+            color: #0d6efd;
+        }
+
+        .accordion-button:not(.collapsed) {
+            color: #ffffff;
+            background-color: #0d6efd;
+        }
+
+        footer {
+            background-color: #343a40;
+            color: white;
+        }
+        
+        
