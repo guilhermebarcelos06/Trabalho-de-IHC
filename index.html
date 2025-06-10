@@ -3,256 +3,351 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VetComunidade - Agendamentos Veterinários</title>
+    <title>VetComunidade - Agendamento Veterinário</title>
+
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+   
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="styles.css">
-
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="#inicio">
-                <i class="bi bi-heart-pulse-fill text-primary"></i>
-                VetComunidade
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#inicio">Início</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#servicos">Serviços</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#agendamento">Agendamento</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#equipe">Nossa Equipe</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#duvidas">Dúvidas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#contato">Contato</a>
-                    </li>
-                </ul>
+ <div class="fade-in-section">
+    
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+            <div class="container">
+                <a class="navbar-brand text-info" href="#" onclick="showPage('home')"><i class="bi bi-heart-pulse-fill"></i> VetComunidade</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('home')">Início</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('servicos')">Serviços</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('agendamento')">Agendamento</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('sobre')">Sobre Nós</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('faq')">FAQ</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('contato')">Contato</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('portal')">Portal do Tutor</a></li>
+                        <li class="nav-item"><a class="nav-link" href="portaldoveterinario.html" onclick="showPage('portaldoveterinario.htmll')">Portal do veterinário</a></li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </header>
+
     <main>
-        <section id="inicio" class="hero-section">
-            <div class="container">
-                <h1 class="display-4">Cuidado e carinho para seu melhor amigo</h1>
-                <p class="lead mb-4">Agende consultas veterinárias comunitárias de forma fácil e rápida.</p>
-                <a href="#agendamento" class="btn btn-primary btn-lg">Agendar Agora</a>
+        
+        <section id="page-home" class="page-section active">
+            <div class="hero-section">
+                <div class="container">
+                    <h1>Cuidado e Carinho Para Seu Melhor Amigo</h1>
+                    <p class="lead">Oferecemos serviços veterinários de qualidade com foco na comunidade.</p>
+                    <a href="#" class="btn btn-primary btn-lg mt-3" onclick="showPage('agendamento')">Agende uma Consulta</a>
+                </div>
             </div>
-        </section>
-        <section id="servicos" class="bg-white">
-            <div class="container">
-                <h2 class="section-title">Nossos Serviços</h2>
-                <div class="row g-4">
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card card-service text-center p-4">
-                            <div class="icon mb-3"><i class="bi bi-clipboard2-pulse"></i></div>
-                            <h5 class="card-title fw-bold">Consultas Gerais</h5>
-                            <p class="card-text">Check-ups completos para garantir a saúde e o bem-estar do seu pet.</p>
+            <div class="container py-5">
+                <h2 class="section-title">Nossos Principais Serviços</h2>
+                <div class="row text-center">
+                    <div class="col-md-4 mb-4">
+                        <div class="card p-4">
+                            <i class="bi bi-shield-check fs-1 text-info"></i>
+                            <h4 class="mt-3">Vacinação</h4>
+                            <p>Proteja seu pet com nosso programa completo de vacinação.</p>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card card-service text-center p-4">
-                            <div class="icon mb-3"><i class="bi bi-eyedropper"></i></div>
-                            <h5 class="card-title fw-bold">Vacinação</h5>
-                            <p class="card-text">Mantenha as vacinas do seu animal em dia com nosso programa de imunização.</p>
+                    <div class="col-md-4 mb-4">
+                        <div class="card p-4">
+                            <i class="bi bi-clipboard2-pulse fs-1 text-info"></i>
+                            <h4 class="mt-3">Consultas Gerais</h4>
+                            <p>Check-ups e diagnósticos para manter a saúde do seu animal em dia.</p>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card card-service text-center p-4">
-                            <div class="icon mb-3"><i class="bi bi-bandaid"></i></div>
-                            <h5 class="card-title fw-bold">Pequenas Cirurgias</h5>
-                            <p class="card-text">Procedimentos cirúrgicos de baixa complexidade, como castração e outros.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card card-service text-center p-4">
-                            <div class="icon mb-3"><i class="bi bi-card-checklist"></i></div>
-                            <h5 class="card-title fw-bold">Exames Laboratoriais</h5>
-                            <p class="card-text">Coleta e análise de exames para um diagnóstico preciso e rápido.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card card-service text-center p-4">
-                            <div class="icon mb-3"><i class="bi bi-person-badge"></i></div>
-                            <h5 class="card-title fw-bold">Microchipagem</h5>
-                            <p class="card-text">Identificação segura para o seu pet, garantindo mais tranquilidade para você.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card card-service text-center p-4">
-                            <div class="icon mb-3"><i class="bi bi-chat-left-dots"></i></div>
-                            <h5 class="card-title fw-bold">Orientação Nutricional</h5>
-                            <p class="card-text">Dicas e planos alimentares para uma vida mais saudável e equilibrada.</p>
+                    <div class="col-md-4 mb-4">
+                        <div class="card p-4">
+                            <i class="bi bi-scissors fs-1 text-info"></i>
+                            <h4 class="mt-3">Castração</h4>
+                            <p>Procedimentos seguros para o controle populacional e bem-estar.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        <section id="agendamento">
-            <div class="container">
-                <h2 class="section-title">Faça seu Agendamento</h2>
+
+        
+        <section id="page-servicos" class="page-section">
+            <div class="container py-5">
+                <h2 class="section-title">O que oferecemos</h2>
+                <div class="row">
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100">
+                            <img src="img/Vacinação1.jpeg" class="card-img-top" alt="Vacinação">
+                            <div class="card-body">
+                                <h5 class="card-title">Programa de Vacinação</h5>
+                                <p class="card-text">Oferecemos pacotes completos de vacinação para cães e gatos, incluindo V10, V4, Antirrábica e outras, essenciais para a proteção contra doenças graves.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100">
+                            <img src="img/Castração1.jpeg" class="card-img-top" alt="Castração">
+                            <div class="card-body">
+                                <h5 class="card-title">Castração Comunitária</h5>
+                                <p class="card-text">Realizamos campanhas de castração a preços acessíveis, ajudando no controle populacional e prevenindo doenças. Procedimento seguro com acompanhamento pós-operatório.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100">
+                            <img src="img/consulta1.jpg" class="card-img-top" alt="Consultas">
+                            <div class="card-body">
+                                <h5 class="card-title">Consultas e Check-ups</h5>
+                                <p class="card-text">Consultas de rotina para avaliação geral da saúde do seu pet, diagnóstico de problemas e orientação sobre cuidados, nutrição e bem-estar.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+      
+        <section id="page-agendamento" class="page-section">
+            <div class="container py-5">
+                <h2 class="section-title">Agende sua Consulta</h2>
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
-                        <form class="p-4 p-md-5 border rounded-3 bg-light">
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
+                        <div class="card p-4 p-md-5">
+                            <form id="agendamentoForm">
+                                <div class="mb-3">
                                     <label for="tutorNome" class="form-label">Nome do Tutor</label>
                                     <input type="text" class="form-control" id="tutorNome" required>
                                 </div>
-                                <div class="col-md-6 mb-3">
+                                <div class="mb-3">
                                     <label for="petNome" class="form-label">Nome do Pet</label>
                                     <input type="text" class="form-control" id="petNome" required>
                                 </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" placeholder="seu@email.com" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="telefone" class="form-label">Telefone / WhatsApp</label>
-                                <input type="tel" class="form-control" id="telefone" placeholder="(00) 99999-9999" required>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="servico" class="form-label">Serviço Desejado</label>
-                                    <select class="form-select" id="servico" required>
-                                        <option selected disabled value="">Escolha...</option>
-                                        <option>Consulta Geral</option>
-                                        <option>Vacinação</option>
-                                        <option>Pequena Cirurgia</option>
-                                        <option>Exames</option>
-                                    </select>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="petEspecie" class="form-label">Espécie</label>
+                                        <select class="form-select" id="petEspecie">
+                                            <option>Cachorro</option>
+                                            <option>Gato</option>
+                                            <option>Outro</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="servico" class="form-label">Serviço Desejado</label>
+                                        <select class="form-select" id="servico">
+                                            <option>Consulta Geral</option>
+                                            <option>Exame</option>
+                                            <option>Vacinação</option>
+                                            <option>Castração</option>
+                                            <option>Retorno</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="col-md-6 mb-3">
+                                <div class="mb-3">
                                     <label for="data" class="form-label">Data Preferencial</label>
                                     <input type="date" class="form-control" id="data" required>
                                 </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="observacoes" class="form-label">Observações</label>
-                                <textarea class="form-control" id="observacoes" rows="3" placeholder="Alguma informação adicional sobre o pet?"></textarea>
-                            </div>
-                            <button type="submit" class="w-100 btn btn-lg btn-primary">Enviar Agendamento</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section id="equipe" class="bg-white">
-            <div class="container">
-                <h2 class="section-title">Nossa Equipe</h2>
-                <div class="row justify-content-center g-4">
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card card-team text-center p-4">
-                            <img src="https://placehold.co/200x200/0d6efd/ffffff?text=Dra.+Ana" class="rounded-circle img-fluid mx-auto mb-3" alt="Foto da Veterinária Ana">
-                            <h5 class="card-title fw-bold">Dra. Ana Silva</h5>
-                            <p class="text-muted">CRMV-SP 12345</p>
-                            <p class="card-text">Clínica geral e cirurgia de pequenos animais. Apaixonada por felinos.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card card-team text-center p-4">
-                            <img src="https://placehold.co/200x200/198754/ffffff?text=Dr.+Carlos" class="rounded-circle img-fluid mx-auto mb-3" alt="Foto do Veterinário Carlos">
-                            <h5 class="card-title fw-bold">Dr. Carlos Souza</h5>
-                            <p class="text-muted">CRMV-SP 54321</p>
-                            <p class="card-text">Especialista em dermatologia e nutrição animal. Adora cães de grande porte.</p>
+                                <div class="mb-3">
+                                    <label for="contato" class="form-label">Telefone para Contato (WhatsApp)</label>
+                                    <input type="tel" class="form-control" id="contato" placeholder="(XX) XXXXX-XXXX" required>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary btn-lg">Confirmar Agendamento</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        <section id="duvidas">
-            <div class="container">
-                <h2 class="section-title">Dúvidas Frequentes (FAQ)</h2>
+        
+     
+        <section id="page-confirmacao" class="page-section">
+            <div class="container py-5 text-center">
                 <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="accordion" id="faqAccordion">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingOne">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        Quais formas de pagamento são aceitas?
-                                    </button>
-                                </h2>
-                                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
-                                    <div class="accordion-body">
-                                        Aceitamos dinheiro, PIX, cartões de débito e crédito. Os valores são comunitários, buscando ser acessíveis para todos.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingTwo">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        Preciso levar algum documento no dia da consulta?
-                                    </button>
-                                </h2>
-                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
-                                    <div class="accordion-body">
-                                        Sim, por favor, traga um documento de identificação seu e a carteirinha de vacinação do seu pet, caso ele possua.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingThree">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                        Como funciona o atendimento de emergência?
-                                    </button>
-                                </h2>
-                                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
-                                    <div class="accordion-body">
-                                        Atualmente, nosso foco é em atendimentos agendados. Para emergências, recomendamos que procure um hospital veterinário 24 horas. Podemos fornecer indicações se necessário.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section id="contato" class="bg-white">
-            <div class="container">
-                <h2 class="section-title">Entre em Contato</h2>
-                <div class="row g-5">
-                    <div class="col-lg-6">
-                        <h4 class="mb-3">Informações</h4>
-                        <p><i class="bi bi-geo-alt-fill text-primary me-2"></i> Rua da Comunidade, 123 - Centro</p>
-                        <p><i class="bi bi-telephone-fill text-primary me-2"></i> (11) 5555-4444</p>
-                        <p><i class="bi bi-whatsapp text-primary me-2"></i> (11) 95555-4444</p>
-                        <p><i class="bi bi-envelope-fill text-primary me-2"></i> contato@vetcomunidade.com.br</p>
-                        <h4 class="mt-4 mb-3">Horário de Funcionamento</h4>
-                        <p>Segunda a Sexta: 9:00 - 18:00</p>
-                        <p>Sábado: 9:00 - 13:00</p>
-                    </div>
-                    <div class="col-lg-6">
-                         <h4 class="mb-3">Localização</h4>
-                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.197544026602!2d-46.65657158440683!3d-23.56133926748466!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1678886565152!5m2!1spt-BR!2sbr" width="100%" height="250" style="border:0; border-radius: 15px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <div class="col-md-8">
+                        <i class="bi bi-check-circle-fill text-success" style="font-size: 5rem;"></i>
+                        <h2 class="section-title mt-4">Agendamento Enviado com Sucesso!</h2>
+                        <p class="lead">Obrigado por confiar na VetComunidade. Sua solicitação de agendamento foi recebida.</p>
+                        <p>Nossa equipe entrará em contato pelo telefone informado em até 24 horas para confirmar a data e horário e passar as instruções.</p>
+                        <button class="btn btn-outline-primary mt-3" onclick="showPage('home')">Voltar para a Página Inicial</button>
                     </div>
                 </div>
             </div>
         </section>
 
+
+        <section id="page-sobre" class="page-section">
+            <div class="container py-5">
+                <h2 class="section-title">Nossa Missão</h2>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 text-center">
+                        <p class="lead">A VetComunidade nasceu do desejo de tornar o cuidado veterinário de qualidade acessível a todos. Acreditamos que todo animal de estimação merece uma vida longa, saudável e feliz, independentemente da condição financeira de seus tutores.</p>
+                        <p>Nossa equipe é formada por veterinários apaixonados e voluntários dedicados que trabalham juntos para oferecer consultas, vacinas e procedimentos a preços justos, com foco no bem-estar animal e na educação da comunidade.</p>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                     <div class="col-md-6 col-lg-4 mb-4 text-center">
+                        <img src="https://placehold.co/150x150/6c757d/ffffff?text=Veterinário(a)" class="rounded-circle mb-3" alt="Membro da equipe">
+                        <h5>Dr. Guilherme S.</h5>
+                        <p class="text-muted">Veterinário Chefe</p>
+                    </div>
+                    <div class="col-md-6 col-lg-4 mb-4 text-center">
+                        <img src="https://placehold.co/150x150/6c757d/ffffff?text=Veterinário(a)" class="rounded-circle mb-3" alt="Membro da equipe">
+                        <h5>Dr. Guilherme H.</h5>
+                        <p class="text-muted">Cirurgião Veterinário</p>
+                    </div>
+                    <div class="col-md-6 col-lg-4 mb-4 text-center">
+                        <img src="https://placehold.co/150x150/6c757d/ffffff?text=Voluntário(a)" class="rounded-circle mb-3" alt="Membro da equipe">
+                        <h5>Amanda P.</h5>
+                        <p class="text-muted">Coordenadora de Voluntários</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        
+        <section id="page-faq" class="page-section">
+             <div class="container py-5">
+                <h2 class="section-title">Perguntas Frequentes</h2>
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                Quais serviços vocês oferecem?
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Oferecemos consultas gerais, vacinação, castração, vermifugação e orientação sobre cuidados básicos de saúde para cães e gatos.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                                Preciso agendar ou posso apenas chegar?
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Todos os atendimentos são realizados com hora marcada para garantir a organização e a qualidade do serviço. Por favor, utilize nosso formulário de agendamento.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                                Quais são as formas de pagamento?
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Aceitamos pagamento em dinheiro, PIX e cartões de débito/crédito. Os valores são sociais e visam cobrir os custos dos materiais.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+      
+        <section id="page-portal" class="page-section">
+            <div class="container py-5">
+                 <h2 class="section-title">Portal do Tutor</h2>
+                 <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="card p-4">
+                            <h5 class="card-title text-center">Acesse sua conta</h5>
+                            <form>
+                                <div class="mb-3">
+                                    <label for="portalEmail" class="form-label">Email ou CPF</label>
+                                    <input type="text" class="form-control" id="portalEmail">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="portalSenha" class="form-label">Senha</label>
+                                    <input type="password" class="form-control" id="portalSenha">
+                                </div>
+                                <div class="d-grid">
+                                     <button type="button" class="btn btn-primary">Entrar</button>
+                                </div>
+                                <p class="text-center mt-3 small">Ainda não tem cadastro? Ele será criado no seu primeiro agendamento.</p>
+                            </form>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </section>
+        
+     
+        <section id="page-contato" class="page-section">
+            <div class="container py-5">
+                <h2 class="section-title">Fale Conosco</h2>
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="card p-4 h-100">
+                             <h5>Envie uma Mensagem</h5>
+                             <form>
+                                <div class="mb-3">
+                                    <label for="contatoNome" class="form-label">Seu Nome</label>
+                                    <input type="text" class="form-control" id="contatoNome">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="contatoEmail" class="form-label">Seu Email</label>
+                                    <input type="email" class="form-control" id="contatoEmail">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="contatoMensagem" class="form-label">Mensagem</label>
+                                    <textarea class="form-control" id="contatoMensagem" rows="4"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Enviar</button>
+                             </form>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card p-4 h-100">
+                            <h5>Nossas Informações</h5>
+                            <p><i class="bi bi-geo-alt-fill me-2 text-info"></i>Rua da Comunidade, 123 - Bairro Solidário</p>
+                            <p><i class="bi bi-telephone-fill me-2 text-info"></i>(11) 98765-4321</p>
+                            <p><i class="bi bi-envelope-fill me-2 text-info"></i>contato@vetcomunidade.com</p>
+                            <hr>
+                            <h5>Horário de Atendimento</h5>
+                            <p>Segunda a Sexta: 9h às 18h<br>Sábados: 9h às 13h</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
     </main>
-    <footer class="text-center p-4">
-        <div class="container">
-            <p class="mb-0">&copy; 2025 Guilherme S. Barcelos. Todos os direitos reservados.</p>
+
+   
+    <footer class="footer">
+        <div class="container text-center">
+            <p>&copy; 2025 Guilherme Barcelos e Guilherme Henrique. Todos os direitos reservados.</p>
+            <p>
+                <a href="https://www.instagram.com/_guilherrmsilvetr15/"><i class="bi bi-instagram fs-4 mx-2"></i></a>
+                <a href="#"><i class="bi bi-facebook fs-4 mx-2"></i></a>
+                <a href="https://wa.me/+5561985963447"><i class="bi bi-whatsapp fs-4 mx-2"></i></a>
+            </p>
         </div>
     </footer>
+
+  </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    
+    <script src="script.js"></script>
+    
 
 </body>
 </html>

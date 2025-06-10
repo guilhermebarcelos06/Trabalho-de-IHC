@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vet Portal - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .tab-content, .modal-backdrop { transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; }
+        select:disabled { background-color: #e9ecef; cursor: not-allowed; }
+        .team-card { cursor: pointer; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 antialiased">
+
+    <div id="login-screen" class="flex items-center justify-center min-h-screen bg-gray-200">
+        <div class="w-full max-w-md p-8 space-y-8 bg-white rounded-2xl shadow-lg">
+            <div class="text-center">
+                <i class="ph-bold ph-paw-print text-5xl text-teal-600"></i>
+                <h2 class="mt-4 text-3xl font-bold tracking-tight text-gray-900">Bem-vindo ao Vet Portal</h2>
+                <p class="mt-2 text-sm text-gray-600">Faça login para acessar seu painel. (Email: admin@vet.com, Senha: admin)</p>
+            </div>
+            <form id="login-form" class="mt-8 space-y-6">
+                <div class="space-y-4 rounded-md shadow-sm">
+                    <input id="email-address" name="email" type="email" autocomplete="email" required class="relative block w-full appearance-none rounded-lg border border-gray-300 px-3 py-3 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-teal-500 focus:outline-none focus:ring-teal-500 sm:text-sm" placeholder="Email">
+                    <input id="password" name="password" type="password" autocomplete="current-password" required class="relative block w-full appearance-none rounded-lg border border-gray-300 px-3 py-3 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-teal-500 focus:outline-none focus:ring-teal-500 sm:text-sm" placeholder="Senha">
+                </div>
+                <div id="login-error" class="text-red-500 text-sm text-center hidden">Email ou senha inválidos.</div>
+                <button type="submit" class="group relative flex w-full justify-center rounded-lg border border-transparent bg-teal-600 py-3 px-4 text-sm font-semibold text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2">Entrar</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="main-app" class="hidden">
+        <div class="flex h-screen bg-gray-100">
+            <aside class="w-64 flex-shrink-0 bg-white border-r border-gray-200 flex flex-col">
+                <div class="h-16 flex items-center justify-center px-4 border-b border-gray-200">
+                    <i class="ph-bold ph-paw-print text-3xl text-teal-600"></i>
+                    <span class="ml-3 text-xl font-bold">Vet Portal</span>
+                </div>
+                <nav class="flex-1 px-4 py-4 space-y-2">
+                    <a href="#dashboard" class="tab-link active-link flex items-center px-4 py-2 text-gray-700 bg-teal-50 rounded-lg"><i class="ph-bold ph-users-three text-lg"></i><span class="ml-3">Clientes & Animais</span></a>
+                    <a href="#agenda" class="tab-link flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"><i class="ph-bold ph-chart-bar text-lg"></i><span class="ml-3">Agenda & Relatórios</span></a>
+                    <a href="#financeiro" class="tab-link flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"><i class="ph-bold ph-money text-lg"></i><span class="ml-3">Fluxo de Caixa</span></a>
+                    <a href="#equipe" class="tab-link flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"><i class="ph-bold ph-first-aid-kit text-lg"></i><span class="ml-3">Equipe</span></a>
+                </nav>
+                 <div class="px-4 py-4 border-t border-gray-200">
+                    <button id="logout-button" class="w-full flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"><i class="ph-bold ph-sign-out text-lg"></i><span class="ml-3">Sair</span></button>
+                </div>
+            </aside>
+
+            <main class="flex-1 p-6 md:p-8 overflow-y-auto">
+                <div id="dashboard-content" class="tab-content">
+                    <div class="flex justify-between items-center mb-6">
+                        <h1 class="text-3xl font-bold">Clientes & Animais</h1>
+                        <button id="add-client-btn" class="flex items-center bg-teal-600 text-white font-semibold px-4 py-2 rounded-lg shadow hover:bg-teal-700 transition-colors"><i class="ph ph-plus mr-2"></i>Adicionar Cliente</button>
+                    </div>
+                    <div id="client-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                </div>
+
+                <div id="agenda-content" class="tab-content hidden opacity-0">
+                    <div class="flex justify-between items-center mb-6">
+                        <h1 class="text-3xl font-bold">Agenda & Relatórios</h1>
+                        <button class="flex items-center bg-teal-600 text-white font-semibold px-4 py-2 rounded-lg shadow hover:bg-teal-700 transition-colors"><i class="ph ph-calendar-plus mr-2"></i>Agendar Consulta</button>
+                    </div>
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                        <div class="bg-white p-6 rounded-2xl shadow-md"><h2 class="text-xl font-bold mb-4">Consultas Mensais</h2><canvas id="consultationsChart"></canvas></div>
+                        <div id="schedule-container" class="bg-white p-6 rounded-2xl shadow-md"></div>
+                    </div>
+                </div>
+                
+                <div id="financeiro-content" class="tab-content hidden opacity-0">
+                    <div class="flex justify-between items-center mb-6">
+                        <h1 class="text-3xl font-bold">Fluxo de Caixa</h1>
+                        <button id="add-transaction-btn" class="flex items-center bg-teal-600 text-white font-semibold px-4 py-2 rounded-lg shadow hover:bg-teal-700 transition-colors"><i class="ph ph-plus mr-2"></i>Adicionar Transação</button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                        <div class="bg-green-100 p-6 rounded-2xl shadow"><h3 class="text-lg font-semibold text-green-800">Receita Total</h3><p id="total-income" class="text-3xl font-bold text-green-900 mt-2"></p></div>
+                        <div class="bg-red-100 p-6 rounded-2xl shadow"><h3 class="text-lg font-semibold text-red-800">Despesa Total</h3><p id="total-expense" class="text-3xl font-bold text-red-900 mt-2"></p></div>
+                        <div class="bg-blue-100 p-6 rounded-2xl shadow"><h3 class="text-lg font-semibold text-blue-800">Saldo</h3><p id="balance" class="text-3xl font-bold text-blue-900 mt-2"></p></div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-md">
+                        <h2 class="text-xl font-bold mb-4">Últimas Transações</h2>
+                        <table class="w-full text-left">
+                            <thead><tr class="border-b-2 border-gray-200"><th class="py-3 px-4 font-semibold text-sm">Descrição</th><th class="py-3 px-4 font-semibold text-sm">Data</th><th class="py-3 px-4 font-semibold text-sm">Tipo</th><th class="py-3 px-4 font-semibold text-sm text-right">Valor</th></tr></thead>
+                            <tbody id="transactions-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="equipe-content" class="tab-content hidden opacity-0">
+                    <div class="flex justify-between items-center mb-6">
+                        <h1 class="text-3xl font-bold">Nossa Equipe</h1>
+                        <button id="add-team-btn" class="flex items-center bg-teal-600 text-white font-semibold px-4 py-2 rounded-lg shadow hover:bg-teal-700 transition-colors"><i class="ph ph-user-plus mr-2"></i>Adicionar Membro</button>
+                    </div>
+                    <div id="team-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <div id="add-client-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50 modal-backdrop"><div class="bg-white w-full max-w-2xl rounded-2xl shadow-xl p-8 m-4 max-h-[90vh] overflow-y-auto"><div class="flex justify-between items-center mb-6"><h2 class="text-2xl font-bold">Adicionar Novo Cliente</h2><button id="close-client-modal-btn" class="text-gray-500 hover:text-gray-800"><i class="ph-bold ph-x text-2xl"></i></button></div><form id="new-client-form"><div class="space-y-6"><div><h3 class="text-lg font-semibold border-b pb-2 mb-4">Dados do Tutor</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label for="client-name" class="block text-sm font-medium text-gray-700">Nome Completo</label><input type="text" id="client-name" required class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"></div><div><label for="client-contact" class="block text-sm font-medium text-gray-700">Contato</label><input type="text" id="client-contact" required class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"></div></div></div><div><div class="flex justify-between items-center border-b pb-2 mb-4"><h3 class="text-lg font-semibold">Animais</h3><button type="button" id="add-pet-fields-btn" class="flex items-center text-sm font-medium text-teal-600 hover:text-teal-800"><i class="ph ph-plus-circle mr-1"></i>Adicionar outro Pet</button></div><div id="pets-container" class="space-y-4"></div></div></div><div class="mt-8 flex justify-end space-x-4"><button type="button" id="cancel-client-modal-btn" class="px-6 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300 font-semibold">Cancelar</button><button type="submit" class="px-6 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700 font-semibold">Salvar Cliente</button></div></form></div></div>
+    
+    <div id="add-team-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50 modal-backdrop"><div class="bg-white w-full max-w-lg rounded-2xl shadow-xl p-8 m-4"><div class="flex justify-between items-center mb-6"><h2 class="text-2xl font-bold">Adicionar Membro da Equipe</h2><button id="close-team-modal-btn" class="text-gray-500 hover:text-gray-800"><i class="ph-bold ph-x text-2xl"></i></button></div><form id="new-team-form"><div class="space-y-4"><div><label for="member-name" class="block text-sm font-medium text-gray-700">Nome Completo</label><input type="text" id="member-name" required class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"></div><div><label for="member-role" class="block text-sm font-medium text-gray-700">Cargo</label><select id="member-role" required class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"></select></div><div><label for="member-photo" class="block text-sm font-medium text-gray-700">URL da Foto (Opcional)</label><input type="url" id="member-photo" placeholder="https://exemplo.com/foto.jpg" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"></div></div><div class="mt-8 flex justify-end space-x-4"><button type="button" id="cancel-team-modal-btn" class="px-6 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300 font-semibold">Cancelar</button><button type="submit" class="px-6 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700 font-semibold">Salvar Membro</button></div></form></div></div>
+    
+    <div id="team-detail-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50 modal-backdrop"><div class="bg-white w-full max-w-md rounded-2xl shadow-xl p-8 m-4 text-center"><div class="absolute top-4 right-4"><button id="close-detail-modal-btn" class="text-gray-500 hover:text-gray-800"><i class="ph-bold ph-x text-2xl"></i></button></div><img id="detail-member-photo" src="" alt="Foto do membro" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-teal-200 object-cover"><h2 id="detail-member-name" class="text-2xl font-bold"></h2><p id="detail-member-role" class="text-teal-600 font-semibold text-lg"></p><div class="text-left mt-6 space-y-3"><div class="flex items-center text-gray-700"><i class="ph ph-envelope-simple text-xl text-gray-500 mr-3"></i><span id="detail-member-email"></span></div><div class="flex items-center text-gray-700"><i class="ph ph-phone text-xl text-gray-500 mr-3"></i><span id="detail-member-phone"></span></div></div><div class="mt-8"><button id="edit-team-member-btn" class="w-full px-6 py-2 rounded-lg bg-teal-100 text-teal-800 hover:bg-teal-200 font-semibold">Editar Perfil</button></div></div></div>
+    
+    <div id="edit-team-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50 modal-backdrop"><div class="bg-white w-full max-w-lg rounded-2xl shadow-xl p-8 m-4"><div class="flex justify-between items-center mb-6"><h2 class="text-2xl font-bold">Editar Membro da Equipe</h2><button id="close-edit-team-modal-btn" class="text-gray-500 hover:text-gray-800"><i class="ph-bold ph-x text-2xl"></i></button></div><form id="edit-team-form"><input type="hidden" id="edit-member-id"><div class="space-y-4"><div><label for="edit-member-name" class="block text-sm font-medium text-gray-700">Nome Completo</label><input type="text" id="edit-member-name" required class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"></div><div><label for="edit-member-role" class="block text-sm font-medium text-gray-700">Cargo</label><select id="edit-member-role" required class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"></select></div><div><label for="edit-member-email" class="block text-sm font-medium text-gray-700">Email</label><input type="email" id="edit-member-email" required class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"></div><div><label for="edit-member-phone" class="block text-sm font-medium text-gray-700">Telefone</label><input type="text" id="edit-member-phone" required class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"></div></div><div class="mt-8 flex justify-end space-x-4"><button type="button" id="cancel-edit-team-modal-btn" class="px-6 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300 font-semibold">Cancelar</button><button type="submit" class="px-6 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700 font-semibold">Salvar Alterações</button></div></form></div></div>
+
+    <div id="add-transaction-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50 modal-backdrop">
+        <div class="bg-white w-full max-w-lg rounded-2xl shadow-xl p-8 m-4">
+            <div class="flex justify-between items-center mb-6"><h2 class="text-2xl font-bold">Adicionar Nova Transação</h2><button id="close-transaction-modal-btn" class="text-gray-500 hover:text-gray-800"><i class="ph-bold ph-x text-2xl"></i></button></div>
+            <form id="new-transaction-form">
+                <div class="space-y-4">
+                    <div><label for="transaction-description" class="block text-sm font-medium text-gray-700">Descrição</label><input type="text" id="transaction-description" required class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"></div>
+                    <div><label for="transaction-amount" class="block text-sm font-medium text-gray-700">Valor</label><input type="number" step="0.01" id="transaction-amount" required class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"></div>
+                    <div><label for="transaction-type" class="block text-sm font-medium text-gray-700">Tipo</label><select id="transaction-type" required class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"><option value="income">Receita</option><option value="expense">Despesa</option></select></div>
+                </div>
+                <div class="mt-8 flex justify-end space-x-4"><button type="button" id="cancel-transaction-modal-btn" class="px-6 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300 font-semibold">Cancelar</button><button type="submit" class="px-6 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700 font-semibold">Salvar Transação</button></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let clients = [ { id: 1, name: "Ana Silva", contact: "(11) 98765-4321", pets: [{ name: "Bolinha", species: "Cachorro", breed: "Poodle", age: "5 anos" }, { name: "Frajola", species: "Gato", breed: "Siamês", age: "2 anos" }] }, { id: 2, name: "Carlos Pereira", contact: "(21) 91234-5678", pets: [{ name: "Rex", species: "Cachorro", breed: "Labrador", age: "3 anos" }] }, { id: 3, name: "Mariana Costa", contact: "(31) 99999-8888", pets: [{ name: "Mimi", species: "Gato", breed: "SRD", age: "7 anos" }, { name: "Pikachu", species: "Pássaro", breed: "Calopsita", age: "1 ano" }] } ];
+        const schedule = [ { time: "09:00", patient: "Bolinha", owner: "Ana Silva", reason: "Vacina Anual", status: "Confirmado" }, { time: "10:00", patient: "Rex", owner: "Carlos Pereira", reason: "Check-up", status: "Confirmado" }, { time: "11:00", patient: "Mimi", owner: "Mariana Costa", reason: "Consulta de rotina", status: "Aguardando" }, { time: "12:00", patient: "Frajola", owner: "Ana Silva", reason: "Unha encravada", status: "Confirmado" }, { time: "14:00", patient: "Pikachu", owner: "Mariana Costa", reason: "Corte de asas", status: "Remarcado" }];
+        let team = [ { id: 1, name: "Guilherme S. Barcelos", role: "Veterinário Chefe", photoUrl: `https://placehold.co/400x400/a7f3d0/134e4a?text=GSB`, email: "guilherme.b@vetportal.com", phone: "(11) 98888-1111" },  { id: 2, name: "Guilherme Henrique", role: "Veterinário", photoUrl: `https://placehold.co/400x400/a7f3d0/134e4a?text=GH`, email: "guilherme.h@vetportal.com", phone: "(21) 97777-2222" },  { id: 3, name: "Fernando Souza", role: "Assistente Veterinário", photoUrl: `https://placehold.co/400x400/a7f3d0/134e4a?text=FS`, email: "fernando.souza@vetportal.com", phone: "(31) 93333-3333" },  { id: 4, name: "Beatriz Martins", role: "Recepcionista", photoUrl: `https://placehold.co/400x400/a7f3d0/134e4a?text=BM`, email: "beatriz.martins@vetportal.com", phone: "(41) 94444-4444" } ];
+        let transactions = [ { id: 1, description: "Consulta - Bolinha", amount: 150.00, type: 'income', date: '2025-06-01' }, { id: 2, description: "Compra de Ração", amount: 250.00, type: 'expense', date: '2025-06-02' }, { id: 3, description: "Vacina - Rex", amount: 80.00, type: 'income', date: '2025-06-03' }, { id: 4, description: "Aluguel", amount: 1500.00, type: 'expense', date: '2025-06-05' }, { id: 5, description: "Salários", amount: 3500.00, type: "expense", date: "2025-06-05" }, { id: 6, description: "Venda de Medicamentos", amount: 320.50, type: "income", date: "2025-06-06" } ];
+        const monthlyConsultations = [45, 59, 80, 81, 56, 55, 62, 78, 90, 85, 70, 95];
+        const breedsBySpecies = { 'Cachorro': ['Labrador Retriever', 'Bulldog Francês', 'Golden Retriever', 'Pastor Alemão', 'Poodle', 'Shih Tzu', 'Yorkshire', 'Pug', 'SRD (Sem Raça Definida)'], 'Gato': ['Siamês', 'Persa', 'Maine Coon', 'Bengal', 'Sphynx', 'Ragdoll', 'SRD (Sem Raça Definida)'], 'Pássaro': ['Calopsita', 'Canário', 'Periquito Australiano', 'Papagaio', 'Agapornis', 'Cacatua'] };
+        const teamRoles = ["Veterinário(a)", "Veterinário(a) Chefe", "Assistente Veterinário", "Recepcionista", "Tosador(a)", "Gerente da Clínica"];
+
+        function formatCurrency(value) { return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
+        
+        function renderFinancials() {
+            const totalIncome = transactions.filter(t => t.type === 'income').reduce((acc, t) => acc + t.amount, 0);
+            const totalExpense = transactions.filter(t => t.type === 'expense').reduce((acc, t) => acc + t.amount, 0);
+            const balance = totalIncome - totalExpense;
+
+            document.getElementById('total-income').textContent = formatCurrency(totalIncome);
+            document.getElementById('total-expense').textContent = formatCurrency(totalExpense);
+            document.getElementById('balance').textContent = formatCurrency(balance);
+
+            const balanceEl = document.getElementById('balance');
+            balanceEl.classList.remove('text-red-900', 'text-blue-900');
+            if (balance < 0) {
+                balanceEl.classList.add('text-red-900');
+            } else {
+                 balanceEl.classList.add('text-blue-900');
+            }
+
+            const tableBody = document.getElementById('transactions-table-body');
+            tableBody.innerHTML = '';
+            transactions.slice().sort((a,b) => new Date(b.date) - new Date(a.date)).forEach(t => {
+                const row = document.createElement('tr');
+                row.className = 'border-b border-gray-100';
+                const typeClass = t.type === 'income' ? 'text-green-600' : 'text-red-600';
+                const value = t.type === 'income' ? t.amount : -t.amount;
+
+                row.innerHTML = `<td class="py-3 px-4">${t.description}</td><td class="py-3 px-4 text-gray-600">${new Date(t.date + 'T00:00:00').toLocaleDateString('pt-BR')}</td><td class="py-3 px-4"><span class="px-3 py-1 text-xs font-semibold rounded-full ${t.type === 'income' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">${t.type === 'income' ? 'Receita' : 'Despesa'}</span></td><td class="py-3 px-4 text-right font-medium ${typeClass}">${formatCurrency(value)}</td>`;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        function renderClients() { const clientList = document.getElementById('client-list'); clientList.innerHTML = ''; clients.forEach(client => { const clientCard = document.createElement('div'); clientCard.className = "bg-white p-6 rounded-2xl shadow-md transition-transform hover:scale-105"; let petsHtml = '<ul class="mt-4 space-y-3">'; client.pets.forEach(pet => { petsHtml += `<li class="flex items-center justify-between text-sm bg-gray-50 p-3 rounded-lg"><div><p class="font-semibold text-gray-800">${pet.name} <span class="font-normal text-gray-500">- ${pet.species}</span></p><p class="text-gray-600">${pet.breed}, ${pet.age}</p></div><i class="ph-bold ph-paw-print text-teal-500"></i></li>`; }); petsHtml += '</ul>'; clientCard.innerHTML = `<div class="flex flex-col"><h3 class="text-xl font-bold text-gray-900">${client.name}</h3><p class="text-sm text-gray-500 mt-1">${client.contact}</p></div><div class="mt-4 border-t border-gray-200 pt-4"><h4 class="font-semibold text-md text-gray-700">Animais</h4>${petsHtml}</div>`; clientList.appendChild(clientCard); }); }
+        function renderSchedule() { const container = document.getElementById('schedule-container'); const statusClasses = { 'Confirmado': 'bg-green-100 text-green-800', 'Aguardando': 'bg-yellow-100 text-yellow-800', 'Remarcado': 'bg-blue-100 text-blue-800', 'Cancelado': 'bg-red-100 text-red-800' }; let scheduleHtml = `<h2 class="text-xl font-bold mb-4">Próximas Consultas</h2> <table class="w-full text-left"><thead class="border-b-2 border-gray-200"><tr><th class="py-3 px-2 font-semibold text-sm">Horário</th><th class="py-3 px-2 font-semibold text-sm">Paciente</th><th class="py-3 px-2 font-semibold text-sm text-center">Status</th></tr></thead><tbody>`; schedule.forEach(item => { scheduleHtml += `<tr class="border-b border-gray-100 hover:bg-gray-50"><td class="py-3 px-2 font-medium">${item.time}</td><td class="py-3 px-2"><div><p class="font-semibold">${item.patient}</p><p class="text-xs text-gray-500">${item.owner}</p></div></td><td class="py-3 px-2 text-center"><span class="px-3 py-1 text-xs font-semibold rounded-full ${statusClasses[item.status] || 'bg-gray-100 text-gray-800'}">${item.status}</span></td></tr>`; }); scheduleHtml += '</tbody></table>'; container.innerHTML = scheduleHtml; }
+        function renderTeam() { const teamList = document.getElementById('team-list'); teamList.innerHTML = ''; team.forEach(member => { const memberCard = document.createElement('div'); memberCard.className = "team-card bg-white rounded-2xl shadow-md text-center p-6 transition-transform hover:-translate-y-1"; memberCard.setAttribute('data-member-id', member.id); memberCard.innerHTML = `<img src="${member.photoUrl}" onerror="this.src='https://placehold.co/400x400/a7f3d0/134e4a?text=??'" alt="Foto de ${member.name}" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-teal-100 object-cover pointer-events-none"><h3 class="font-bold text-lg pointer-events-none">${member.name}</h3><p class="text-teal-600 font-medium pointer-events-none">${member.role}</p>`; teamList.appendChild(memberCard); }); }
+        function renderConsultationChart() { const ctx = document.getElementById('consultationsChart').getContext('2d'); new Chart(ctx, { type: 'bar', data: { labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'], datasets: [{ label: 'Nº de Consultas', data: monthlyConsultations, backgroundColor: 'rgba(13, 148, 136, 0.6)', borderColor: 'rgba(13, 148, 136, 1)', borderWidth: 1, borderRadius: 5 }] }, options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } } }); }
+        function createPetFields() { const petFieldsContainer = document.createElement('div'); petFieldsContainer.className = 'pet-fields-group p-4 border rounded-lg bg-gray-50 relative space-y-4'; petFieldsContainer.innerHTML = `<button type="button" class="remove-pet-btn absolute -top-2 -right-2 bg-red-500 text-white rounded-full h-6 w-6 flex items-center justify-center text-sm font-bold">&times;</button><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label class="block text-sm font-medium">Nome do Pet</label><input type="text" name="pet-name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"></div><div><label class="block text-sm font-medium">Idade</label><input type="text" name="pet-age" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"></div><div><label class="block text-sm font-medium">Espécie</label><select name="pet-species" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"></select></div><div><label class="block text-sm font-medium">Raça</label><select name="pet-breed" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500" disabled></select></div></div>`; const speciesSelect = petFieldsContainer.querySelector('[name="pet-species"]'); const breedSelect = petFieldsContainer.querySelector('[name="pet-breed"]'); speciesSelect.innerHTML = '<option value="">Selecione a Espécie</option>'; for (const species in breedsBySpecies) { speciesSelect.innerHTML += `<option value="${species}">${species}</option>`; } breedSelect.innerHTML = '<option value="">Selecione a espécie primeiro</option>'; speciesSelect.addEventListener('change', (e) => { const selectedSpecies = e.target.value; breedSelect.innerHTML = ''; breedSelect.disabled = true; if (selectedSpecies && breedsBySpecies[selectedSpecies]) { breedSelect.innerHTML = '<option value="">Selecione a Raça</option>'; breedsBySpecies[selectedSpecies].forEach(breed => { breedSelect.innerHTML += `<option value="${breed}">${breed}</option>`; }); breedSelect.disabled = false; } else { breedSelect.innerHTML = '<option value="">Selecione a espécie primeiro</option>'; } }); petFieldsContainer.querySelector('.remove-pet-btn').addEventListener('click', () => { if(document.querySelectorAll('.pet-fields-group').length > 1) { petFieldsContainer.remove(); } }); return petFieldsContainer; }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('login-form'), loginScreen = document.getElementById('login-screen'), mainApp = document.getElementById('main-app'), loginError = document.getElementById('login-error'), logoutButton = document.getElementById('logout-button');
+            const addClientBtn = document.getElementById('add-client-btn'), addClientModal = document.getElementById('add-client-modal'), closeClientModalBtn = document.getElementById('close-client-modal-btn'), cancelClientModalBtn = document.getElementById('cancel-client-modal-btn'), newClientForm = document.getElementById('new-client-form'), petsContainer = document.getElementById('pets-container'), addPetFieldsBtn = document.getElementById('add-pet-fields-btn');
+            const addTeamBtn = document.getElementById('add-team-btn'), addTeamModal = document.getElementById('add-team-modal'), closeTeamModalBtn = document.getElementById('close-team-modal-btn'), cancelTeamModalBtn = document.getElementById('cancel-team-modal-btn'), newTeamForm = document.getElementById('new-team-form'), memberRoleSelect = document.getElementById('member-role');
+            const teamDetailModal = document.getElementById('team-detail-modal'), closeDetailModalBtn = document.getElementById('close-detail-modal-btn'), teamListContainer = document.getElementById('team-list'), editTeamMemberBtn = document.getElementById('edit-team-member-btn');
+            const editTeamModal = document.getElementById('edit-team-modal'), closeEditTeamModalBtn = document.getElementById('close-edit-team-modal-btn'), cancelEditTeamModalBtn = document.getElementById('cancel-edit-team-modal-btn'), editTeamForm = document.getElementById('edit-team-form');
+            const addTransactionBtn = document.getElementById('add-transaction-btn'), addTransactionModal = document.getElementById('add-transaction-modal'), closeTransactionModalBtn = document.getElementById('close-transaction-modal-btn'), cancelTransactionModalBtn = document.getElementById('cancel-transaction-modal-btn'), newTransactionForm = document.getElementById('new-transaction-form');
+            let chartRendered = false;
+
+            loginForm.addEventListener('submit', function(e) { e.preventDefault(); if (document.getElementById('email-address').value === 'admin@vet.com' && document.getElementById('password').value === 'admin') { loginScreen.classList.add('hidden'); mainApp.classList.remove('hidden'); loginError.classList.add('hidden'); renderClients(); renderSchedule(); renderTeam(); renderFinancials(); if(!chartRendered) { renderConsultationChart(); chartRendered = true; } } else { loginError.classList.remove('hidden'); } });
+            logoutButton.addEventListener('click', function() { mainApp.classList.add('hidden'); loginScreen.classList.remove('hidden'); document.getElementById('email-address').value = ''; document.getElementById('password').value = ''; });
+            const tabLinks = document.querySelectorAll('.tab-link'), tabContents = document.querySelectorAll('.tab-content'); const activeLinkClass = ['bg-teal-50', 'text-gray-900', 'font-semibold'], inactiveLinkClass = ['text-gray-600', 'hover:bg-gray-100']; tabLinks.forEach(link => { link.addEventListener('click', function(e) { e.preventDefault(); tabLinks.forEach(l => { l.classList.remove(...activeLinkClass); l.classList.add(...inactiveLinkClass); }); this.classList.add(...activeLinkClass); this.classList.remove(...inactiveLinkClass); tabContents.forEach(content => { content.classList.add('hidden', 'opacity-0'); }); const targetContent = document.getElementById(this.getAttribute('href').substring(1) + '-content'); if (targetContent) { targetContent.classList.remove('hidden'); void targetContent.offsetWidth; targetContent.classList.remove('opacity-0'); } }); });
+
+            const openClientModal = () => { petsContainer.innerHTML = ''; petsContainer.appendChild(createPetFields()); newClientForm.reset(); addClientModal.classList.remove('hidden'); addClientModal.classList.add('flex'); };
+            const closeClientModal = () => { addClientModal.classList.add('hidden'); addClientModal.classList.remove('flex'); };
+            addClientBtn.addEventListener('click', openClientModal);
+            closeClientModalBtn.addEventListener('click', closeClientModal);
+            cancelClientModalBtn.addEventListener('click', closeClientModal);
+            addPetFieldsBtn.addEventListener('click', () => petsContainer.appendChild(createPetFields()));
+            newClientForm.addEventListener('submit', (e) => { e.preventDefault(); const newClient = { id: clients.length > 0 ? Math.max(...clients.map(c => c.id)) + 1 : 1, name: document.getElementById('client-name').value, contact: document.getElementById('client-contact').value, pets: [] }; document.querySelectorAll('#pets-container .pet-fields-group').forEach(group => { newClient.pets.push({ name: group.querySelector('[name="pet-name"]').value, species: group.querySelector('[name="pet-species"]').value, breed: group.querySelector('[name="pet-breed"]').value, age: group.querySelector('[name="pet-age"]').value, }); }); clients.push(newClient); renderClients(); closeClientModal(); });
+
+            const openTeamModal = () => { newTeamForm.reset(); memberRoleSelect.innerHTML = '<option value="">Selecione um cargo</option>'; teamRoles.forEach(role => memberRoleSelect.innerHTML += `<option value="${role}">${role}</option>`); addTeamModal.classList.remove('hidden'); addTeamModal.classList.add('flex'); };
+            const closeTeamModal = () => { addTeamModal.classList.add('hidden'); addTeamModal.classList.remove('flex'); };
+            addTeamBtn.addEventListener('click', openTeamModal);
+            closeTeamModalBtn.addEventListener('click', closeTeamModal);
+            cancelTeamModalBtn.addEventListener('click', closeTeamModal);
+            newTeamForm.addEventListener('submit', (e) => { e.preventDefault(); const name = document.getElementById('member-name').value; const photoUrlInput = document.getElementById('member-photo').value; const initials = name.split(' ').map(n => n[0]).join('').toUpperCase(); const newMember = { id: team.length > 0 ? Math.max(...team.map(t => t.id)) + 1 : 1, name: name, role: document.getElementById('member-role').value, photoUrl: photoUrlInput || `https://placehold.co/400x400/a7f3d0/134e4a?text=${initials}`, email: "email.novo@vetportal.com", phone: "(XX) XXXXX-XXXX" }; team.push(newMember); renderTeam(); closeTeamModal(); });
+
+            const openDetailModal = (member) => {
+                teamDetailModal.setAttribute('data-member-id', member.id);
+                document.getElementById('detail-member-photo').src = member.photoUrl;
+                document.getElementById('detail-member-photo').onerror = function() { this.src = 'https://placehold.co/400x400/a7f3d0/134e4a?text=??'; };
+                document.getElementById('detail-member-name').textContent = member.name;
+                document.getElementById('detail-member-role').textContent = member.role;
+                document.getElementById('detail-member-email').textContent = member.email;
+                document.getElementById('detail-member-phone').textContent = member.phone;
+                teamDetailModal.classList.remove('hidden'); teamDetailModal.classList.add('flex');
+            };
+            const closeDetailModal = () => { teamDetailModal.classList.add('hidden'); teamDetailModal.classList.remove('flex'); };
+            teamListContainer.addEventListener('click', (e) => { const card = e.target.closest('.team-card'); if (card) { const memberId = parseInt(card.getAttribute('data-member-id'), 10); const member = team.find(m => m.id === memberId); if(member) openDetailModal(member); } });
+            closeDetailModalBtn.addEventListener('click', closeDetailModal);
+
+            const openEditModal = (member) => {
+                document.getElementById('edit-member-id').value = member.id;
+                document.getElementById('edit-member-name').value = member.name;
+                document.getElementById('edit-member-email').value = member.email;
+                document.getElementById('edit-member-phone').value = member.phone;
+                const roleSelect = document.getElementById('edit-member-role');
+                roleSelect.innerHTML = '';
+                teamRoles.forEach(role => {
+                    const selected = role === member.role ? 'selected' : '';
+                    roleSelect.innerHTML += `<option value="${role}" ${selected}>${role}</option>`;
+                });
+                closeDetailModal();
+                editTeamModal.classList.remove('hidden'); editTeamModal.classList.add('flex');
+            };
+            const closeEditModal = () => { editTeamModal.classList.add('hidden'); editTeamModal.classList.remove('flex'); };
+            editTeamMemberBtn.addEventListener('click', () => { const memberId = parseInt(teamDetailModal.getAttribute('data-member-id'), 10); const member = team.find(m => m.id === memberId); if (member) openEditModal(member); });
+            editTeamForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const memberId = parseInt(document.getElementById('edit-member-id').value, 10);
+                const memberIndex = team.findIndex(m => m.id === memberId);
+                if (memberIndex !== -1) {
+                    team[memberIndex].name = document.getElementById('edit-member-name').value;
+                    team[memberIndex].role = document.getElementById('edit-member-role').value;
+                    team[memberIndex].email = document.getElementById('edit-member-email').value;
+                    team[memberIndex].phone = document.getElementById('edit-member-phone').value;
+                }
+                renderTeam();
+                closeEditModal();
+            });
+            closeEditTeamModalBtn.addEventListener('click', closeEditModal);
+            cancelEditTeamModalBtn.addEventListener('click', closeEditModal);
+
+            const openTransactionModal = () => { newTransactionForm.reset(); addTransactionModal.classList.remove('hidden'); addTransactionModal.classList.add('flex'); };
+            const closeTransactionModal = () => { addTransactionModal.classList.add('hidden'); addTransactionModal.classList.remove('flex'); };
+            addTransactionBtn.addEventListener('click', openTransactionModal);
+            closeTransactionModalBtn.addEventListener('click', closeTransactionModal);
+            cancelTransactionModalBtn.addEventListener('click', closeTransactionModal);
+            newTransactionForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const newTransaction = { id: transactions.length > 0 ? Math.max(...transactions.map(t => t.id)) + 1 : 1, description: document.getElementById('transaction-description').value, amount: parseFloat(document.getElementById('transaction-amount').value), type: document.getElementById('transaction-type').value, date: new Date().toISOString().split('T')[0] };
+                transactions.push(newTransaction);
+                renderFinancials();
+                closeTransactionModal();
+            });
+        });
+    </script>
+</body>
+</html>
